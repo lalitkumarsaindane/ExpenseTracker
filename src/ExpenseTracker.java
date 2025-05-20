@@ -96,18 +96,22 @@ public class ExpenseTracker {
         System.out.print("Enter filename to save (e.g., output.csv): ");
         String fileName = scanner.nextLine();
 
-        try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
-            writer.println("TYPE,DATE,AMOUNT,CATEGORY");
-            for (Transaction t : transactions) {
-                writer.printf("%s,%s,%.2f,%s%n",
-                        t.getType(),
-                        t.getDate(),
-                        t.getAmount(),
-                        t.getCategory());
+        if (fileName.isBlank())
+            System.out.print("The filename found empty ! ");
+        else{
+            try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
+                writer.println("TYPE,DATE,AMOUNT,CATEGORY");
+                for (Transaction t : transactions) {
+                    writer.printf("%s,%s,%.2f,%s%n",
+                            t.getType(),
+                            t.getDate(),
+                            t.getAmount(),
+                            t.getCategory());
+                }
+                System.out.println("Transactions saved to file.");
+            } catch (IOException e) {
+                System.out.println("Error saving to file.");
             }
-            System.out.println("Transactions saved to file.");
-        } catch (IOException e) {
-            System.out.println("Error saving to file.");
         }
     }
 }
